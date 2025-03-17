@@ -1,3 +1,4 @@
+import dotenv from'dotenv';
 
 
 import express from "express";
@@ -7,6 +8,15 @@ import mongoose from  "mongoose";
 import cors from  "cors";
 import {connectToSocket} from "./Controller/socketManager.js";
 import userRoutes  from "./Routes/user.Routes.js";
+import path from "path";
+
+
+dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+
+
+
+
+
 
 
 
@@ -45,9 +55,8 @@ app.get("/home",(req,res)=>{
 
 const start = async () => {
 app.set("mongo_user")    
-    const connectiionDB = await mongoose.connect("mongodb+srv://gamingbadboy:StMkhb1GwaKrxGIG@cluster0.92v0o.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-
-    console.log(`MONGO Connected DB HOST: ${connectiionDB.connection.host}`);
+    const connectiionDB = await mongoose.connect(process.env.MONGOURL)
+    console.log(`MONGO Connected DB HOST: ${connectiionDB.connection.host}`)
     server.listen(app.get("port"),()=>{
         console.log("Listening at port 8080");
     })
